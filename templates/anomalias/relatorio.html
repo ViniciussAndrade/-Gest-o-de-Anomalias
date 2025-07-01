@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Relatório de Anomalias{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Relatório de Anomalias</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label>Sala:</label>
+        <select name="sala" class="form-select">
+            <option value="">Todas</option>
+            {% for sala in salas %}
+                <option value="{{ sala.id }}">{{ sala.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label>Computador:</label>
+        <select name="computador" class="form-select">
+            <option value="">Todos</option>
+            {% for comp in computadores %}
+                <option value="{{ comp.id }}">{{ comp.nome }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <label>Data Início:</label>
+        <input type="date" name="data_inicio" class="form-control">
+    </div>
+
+    <div class="col-md-2">
+        <label>Data Fim:</label>
+        <input type="date" name="data_fim" class="form-control">
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Data</th>
+            <th>Computador</th>
+            <th>Sala</th>
+            <th>Descrição</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for anomalia in anomalias %}
+        <tr>
+            <td>{{ anomalia.data_criacao }}</td>
+            <td>{{ anomalia.computador.nome }}</td>
+            <td>{{ anomalia.computador.sala.nome }}</td>
+            <td>{{ anomalia.descricao }}</td>
+            <td>{{ anomalia.estado }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">Nenhuma anomalia encontrada com os filtros aplicados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
